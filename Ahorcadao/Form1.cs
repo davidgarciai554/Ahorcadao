@@ -13,21 +13,35 @@ namespace Ahorcadao
     public partial class Form1 : Form
     {
         int numFallos = 0;
-        String palabraOculta = "CEtys";
+        String palabraOculta = eligePalabra();
         Boolean partidaTerminada = false;
 
         
         public Form1()
         {
             InitializeComponent();
+            String _palabraGuiones = "";
+            for (int i = 0; i < palabraOculta.Length; i++)
+            {
+                if (palabraOculta[i] != ' ')
+                {
+                    _palabraGuiones += "_ ";
+                }
+                else
+                {
+                    _palabraGuiones += "  ";
+                }
+                palabraGuiones.Text=_palabraGuiones;
+            }
+
         }
 
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            
         }
-        public String eligePalabra()
+        private static String eligePalabra()
         {
             String[] listaPalabras = { "HolA", "VLADikaKA", "BaBy YOdA" };
             Random aleatorio = new Random();
@@ -40,16 +54,21 @@ namespace Ahorcadao
             Button boton = (Button)sender;
             String letra = boton.Text;
             letra = letra.ToUpper();
-
             if (palabraOculta.Contains(letra))
             {
-                int posicion = palabraOculta.IndexOf(letra);
-                palabraGuiones.Text = palabraGuiones.Text.Remove(2*posicion,1).Insert(2*posicion,letra);
+                for (int i = 0; i < palabraOculta.Length; i++)
+                {
+                    if (palabraOculta[i] == letra[0])
+                    {
+                        palabraGuiones.Text = palabraGuiones.Text.Remove(2 * i, 1).Insert(2 * i, letra);
+                    }
+                }
             }
             else
             {
                 numFallos++;
             }
+            
             if (!palabraGuiones.Text.Contains('_')){
                 numFallos = -100;
             }
